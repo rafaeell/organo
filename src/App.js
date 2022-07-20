@@ -3,6 +3,7 @@ import Banner from './componentes/Banner';
 import Formulario from './componentes/Formulario';
 import Rodape from './componentes/Rodape';
 import Time from './componentes/Time';
+import '@material/react-material-icon/dist/material-icon.css';
 
 function App() {
 
@@ -44,17 +45,27 @@ function App() {
     },
   ];
 
-  const [colaboradores, setColaboradores] = useState([]);
+  let localData = JSON.parse(localStorage.getItem('colaboradores'));
+
+  const [colaboradores, setColaboradores] = useState(localData || []);
 
   const aoNovoColaboradorAdicionado = (colaborador) => {
     //debugger
-    setColaboradores([...colaboradores, colaborador])
+    const employees = [...colaboradores, colaborador];
+    setColaboradores(employees)
+    localStorage.setItem('colaboradores',JSON.stringify(employees));
+  }
+
+  const removeColaborador = (id) => {
+    const employees = colaboradores.filter( colaborador => colaborador.nome !== id );
+    setColaboradores(employees);
+    localStorage.setItem('colaboradores',JSON.stringify(employees));
   }
 
   return (
     <div className="App">
       <Banner />
-      <Formulario times={ times.map( time => time.nome ) } aoColaboradorCadastrado={ colaborador => aoNovoColaboradorAdicionado(colaborador) }/>
+      <Formulario times={ times.map( time => time.nome ) }  aoColaboradorCadastrado={ colaborador => aoNovoColaboradorAdicionado(colaborador) }/>
       {
         times.map( time => 
           <Time 
@@ -63,6 +74,7 @@ function App() {
             corPrimaria={time.corPrimaria} 
             corSecundaria={time.corSecundaria} 
             colaboradores={colaboradores.filter( colaborador => colaborador.time === time.nome)}
+            removeColaborador={ id => removeColaborador(id) }
           /> 
         )
       }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Botao from '../Botao';
+import CampoImagem from '../CampoImagem';
 import CampoTexto from '../CampoTexto';
 import ListaSuspensa from '../ListaSuspensa';
 import './Formulario.css';
@@ -10,19 +11,21 @@ const Formulario = (props) => {
     const [cargo, setCargo] = useState('');
     const [imagem, setImagem] = useState('');
     const [time, setTime] = useState('');
+   
 
     const aoSalvar = (e) => {
         e.preventDefault();
         props.aoColaboradorCadastrado({nome,cargo,imagem,time});
-        setNome('')
-        setCargo('')
-        setImagem('')
-        setTime('')
+        setNome('');
+        setCargo('');
+        setImagem('');
+        setTime('');
     }
 
+   
     return (
         <section className='formulario'>
-            <form onSubmit={aoSalvar}>
+            <form id="form" onSubmit={aoSalvar}>
                 <h2>Preencha os dados para criar o card do colaborador</h2>
                 <CampoTexto 
                     obrigatorio={true} 
@@ -40,9 +43,9 @@ const Formulario = (props) => {
                     valor={cargo}
                     aoAlterado={ valor => setCargo(valor) }
                 />
-                <CampoTexto 
+                <CampoImagem 
                     obrigatorio={true} 
-                    label="Imagem" 
+                    label="Selecione uma Imagem" 
                     name="imagem"
                     placeholder="Digite o endereço da imagem" 
                     valor={imagem}

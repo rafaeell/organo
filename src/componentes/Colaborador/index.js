@@ -1,8 +1,14 @@
 import './Colaborador.css';
+import MaterialIcon from '@material/react-material-icon';
 
-const Colaborador = ({nome, cargo, imagem, corDeFundo }) => {
+const Colaborador = ({nome, cargo, imagem, corDeFundo, remove, update }) => {
+
     return (
         <div className='colaborador'>
+            <MaterialIcon onClick={remove} data-remove={nome} icon='close' className='close' />
+            <a href="#form">
+                <MaterialIcon onClick={update} data-update={nome} icon='edit' className='edit' />
+            </a>
             <div className='cabecalho' style={{ backgroundColor: corDeFundo }}>
                 <img src={imagem} alt={nome} />
             </div>
