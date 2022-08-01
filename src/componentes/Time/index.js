@@ -1,27 +1,19 @@
+import { useContext } from 'react';
+import { UsuarioContext } from '../../contexts/Usuario';
 import Colaborador from '../Colaborador';
 import './Time.css';
 
 const Time = (props) => {
-    const css = {backgroundColor: props.corSecundaria};
 
-    const remove = (e) => {     
-        e.preventDefault();
-        const id = e.target.dataset.remove;
-        if(window.confirm("Deseja realmente excluir este card ?")){
-            props.removeColaborador(id);
-        }
-    }
-
-    const update = (e) => {
-        const id = e.target.dataset.update;
-        props.updateColaborador(id);
-    }
-
+    const { times, colaboradores } = useContext(UsuarioContext);
+    const time = times.find(item => item.nome === props.nome);
+    const colabs = colaboradores.filter( colaborador => colaborador.time === props.nome );
+    
     return (
-        props.colaboradores.length > 0 && <section className='time' style={css}>
-            <h3 style={{ borderColor: props.corPrimaria }}>{props.nome}</h3>
+        colabs.length > 0 && <section className='time' style={{backgroundColor: time.corSecundaria}}>
+            <h3 style={{ borderColor: time.corPrimaria }}>{props.nome}</h3>
             <div className='colaboradores'>
-                {props.colaboradores.map( colaborador => <Colaborador update={update} remove={remove} corDeFundo={props.corPrimaria} key={colaborador.nome} nome={colaborador.nome} cargo={colaborador.cargo} imagem={colaborador.imagem}/> )}
+                {colabs.map( colaborador => <Colaborador {...colaborador} key={colaborador.nome} corDeFundo={time.corPrimaria} /> )}
             </div>
         </section>
     );

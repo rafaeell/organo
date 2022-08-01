@@ -21,3 +21,26 @@
     display: block;
     margin: auto;
 }
+
+.campo-imagem .wrapperImage {
+    position: relative;
+    width: max-content;
+    margin: auto;
+}
+
+.campo-imagem .close{
+    display: block;
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    text-decoration: none;
+    border: none;
+    border-radius: 100%;
+    padding: 10px;
+    font-size: 15px;
+    color: #fff;
+    background-color: #d92020;
+    transition:.3s;
+    cursor: pointer;
+    user-select: none;
+}

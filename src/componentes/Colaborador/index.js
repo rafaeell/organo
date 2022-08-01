@@ -1,13 +1,22 @@
 import './Colaborador.css';
 import MaterialIcon from '@material/react-material-icon';
+import { useUsuarioContext } from '../../contexts/Usuario';
 
-const Colaborador = ({nome, cargo, imagem, corDeFundo, remove, update }) => {
+const Colaborador = ({id, nome, cargo, imagem, corDeFundo }) => {
+
+    const { removeColaborador, updateColaborador } = useUsuarioContext();
+    
+    const remove = (id) => {     
+        if(window.confirm("Deseja realmente excluir este card ?")){
+            removeColaborador(id);
+        }
+    }
 
     return (
         <div className='colaborador'>
-            <MaterialIcon onClick={remove} data-remove={nome} icon='close' className='close' />
+            <MaterialIcon onClick={ () => remove(id) } icon='close' className='close' />
             <a href="#form">
-                <MaterialIcon onClick={update} data-update={nome} icon='edit' className='edit' />
+                <MaterialIcon onClick={ () => updateColaborador(id) } icon='edit' className='edit' />
             </a>
             <div className='cabecalho' style={{ backgroundColor: corDeFundo }}>
                 <img src={imagem} alt={nome} />

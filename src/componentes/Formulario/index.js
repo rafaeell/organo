@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import { useUsuarioContext, UsuarioContext } from '../../contexts/Usuario';
 import Botao from '../Botao';
 import CampoImagem from '../CampoImagem';
 import CampoTexto from '../CampoTexto';
@@ -7,26 +8,30 @@ import './Formulario.css';
 
 const Formulario = (props) => {
 
-    const [nome, setNome] = useState('');
-    const [cargo, setCargo] = useState('');
-    const [imagem, setImagem] = useState('');
-    const [time, setTime] = useState('');
+    const { adicionaColaborador } = useUsuarioContext();
+    const {
+        id,
+        nome, 
+        cargo, 
+        imagem, 
+        time,
+        setId,
+        setNome,
+        setCargo,
+        setImagem,
+        setTime 
+    } = useContext(UsuarioContext);
    
-
     const aoSalvar = (e) => {
         e.preventDefault();
-        props.aoColaboradorCadastrado({nome,cargo,imagem,time});
-        setNome('');
-        setCargo('');
-        setImagem('');
-        setTime('');
+        adicionaColaborador({id,nome,cargo,imagem,time});
     }
 
-   
     return (
         <section className='formulario'>
             <form id="form" onSubmit={aoSalvar}>
                 <h2>Preencha os dados para criar o card do colaborador</h2>
+                <input type="hidden" value={id} />
                 <CampoTexto 
                     obrigatorio={true} 
                     label="Nome" 
@@ -44,7 +49,7 @@ const Formulario = (props) => {
                     aoAlterado={ valor => setCargo(valor) }
                 />
                 <CampoImagem 
-                    obrigatorio={true} 
+                    obrigatorio={ imagem ? false : true} 
                     label="Selecione uma Imagem" 
                     name="imagem"
                     placeholder="Digite o endereço da imagem" 
@@ -55,7 +60,6 @@ const Formulario = (props) => {
                     obrigatorio={true} 
                     label="Time" 
                     name="dropdown"
-                    itens={props.times}
                     valor={time}
                     aoAlterado={ valor => setTime(valor) }
                 />
